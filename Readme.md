@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Екатерина Юрчак](https://up.htmlacademy.ru/javascript/30/user/2166929).
-* Наставник: `Неизвестно`.
+* Студент: [Екатерина Юрчак](https://htmlacademy.ru/profile/neonin).
+* Наставник: [Павел Позняк](https://htmlacademy.ru/profile/id907403).
 
 ---
 
