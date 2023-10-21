@@ -1,5 +1,8 @@
-const NUMBER_OF_POSTS = 25;
-const NUMBERS_OF_COMMENTS = [0, 30];
+const POSTS_COUNT = 25;
+const COMMENTS_COUNT = {
+  min: 0,
+  max: 30
+};
 
 const DESCRIPTIONS = [
   'Красивая фотография',
@@ -8,8 +11,15 @@ const DESCRIPTIONS = [
   'Очень интересная фотография'
 ];
 
-const NUMBERS_OF_LIKES = [15, 200];
-const NUMBERS_OF_AVATARS = [1, 6];
+const LIKES_COUNT = {
+  min: 15,
+  max: 200
+};
+
+const AVATARS_COUNT = {
+  min: 1,
+  max: 6
+};
 
 const NAMES = [
   'Даниил',
@@ -29,53 +39,35 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  const result = Math.random() * (upper - lower + 1) + lower;
-  return Math.floor(result);
+const getRandomInteger = (min, max) => Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1) + Math.ceil(min));
+
+const getRandomArrayIndex = (elements) => getRandomInteger(elements.min, elements.max);
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+let commentId = 1;
+let postId = 1;
+
+const createMessage = () => {
+  let message = new Set(Array.from({length: getRandomInteger(1, 2)}, () => getRandomArrayElement(MESSAGES)));
+  message = Array.from(message).join(' ');
+  return message;
 };
-
-const getRandomArrayIndex = (elements) => getRandomInteger(elements[0], elements[1]);
-const getRandomArrayString = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-const createIdGenerator = () => {
-  let previousId = 0;
-
-  return () => {
-    previousId += 1;
-    return previousId;
-  };
-};
-
-const generateCommentId = createIdGenerator();
-
-const createRandomMessage = () => getRandomArrayString(MESSAGES);
-const createArrayOfMessage = () => Array.from({length: getRandomInteger(1, 2)}, createRandomMessage). join(' ');
 
 const createComment = () => ({
-  id: generateCommentId(),
-  avatar: `img/avatar-${ getRandomArrayIndex(NUMBERS_OF_AVATARS) }.svg`,
-  message: createArrayOfMessage(),
-  name: getRandomArrayString(NAMES)
+  id: commentId++,
+  avatar: `img/avatar-${ getRandomArrayIndex(AVATARS_COUNT) }.svg`,
+  message: createMessage(),
+  name: getRandomArrayElement(NAMES)
 });
 
 const createPost = () => ({
-  id: 0,
-  url: 0,
-  description: getRandomArrayString(DESCRIPTIONS),
-  likes: getRandomArrayIndex(NUMBERS_OF_LIKES),
-  createArrayOfComments: Array.from({length: getRandomArrayIndex(NUMBERS_OF_COMMENTS)}, createComment)
+  id: postId,
+  url: `photos/${ postId++ }.jpg`,
+  description: getRandomArrayElement(DESCRIPTIONS),
+  likes: getRandomArrayIndex(LIKES_COUNT),
+  comments: Array.from({length: getRandomArrayIndex(COMMENTS_COUNT)}, createComment)
 });
 
-const createArrayOfPosts = Array.from({length: NUMBER_OF_POSTS}, createPost);
+const createArrayOfPosts = Array.from({length: POSTS_COUNT}, createPost);
 
-createArrayOfPosts.forEach(() => {
-  for (let i in createArrayOfPosts) {
-    createArrayOfPosts[i].id = ++i;
-  }
-
-  for (let i in createArrayOfPosts) {
-    createArrayOfPosts[i].url = `photos/${ ++i }.jpg`;
-  }
-});
+createArrayOfPosts();
