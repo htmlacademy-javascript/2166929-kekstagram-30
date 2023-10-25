@@ -1,3 +1,1 @@
-import {createArrayOfPosts} from './data.js';
-
-createArrayOfPosts();
+import './thumbnails.js';
