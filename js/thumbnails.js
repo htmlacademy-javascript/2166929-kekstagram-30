@@ -2,17 +2,22 @@ import {createArrayOfPosts} from './data.js';
 
 const posts = document.querySelector('.pictures');
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const thumbnailsOfPosts = createArrayOfPosts;
+const thumbnailsOfPosts = createArrayOfPosts();
 
-const postsFragment = document.createDocumentFragment();
-
-thumbnailsOfPosts.forEach(({url, description, likes, comments}) => {
+const createPost = (date) => {
   const postElement = postTemplate.cloneNode(true);
-  postElement.querySelector('.picture__img').src = url;
-  postElement.querySelector('.picture__img').alt = description;
-  postElement.querySelector('.picture__likes').textContent = likes;
-  postElement.querySelector('.picture__comments').textContent = comments.length;
-  postsFragment.append(postElement);
-});
+  const image = postElement.querySelector('.picture__img');
+  image.src = date.url;
+  image.alt = date.description;
+  postElement.querySelector('.picture__likes').textContent = date.likes;
+  postElement.querySelector('.picture__comments').textContent = date.comments.length;
+  posts.append(postElement);
+};
 
-posts.append(postsFragment);
+const createPosts = () => {
+  thumbnailsOfPosts.forEach((postDate) => {
+    createPost(postDate);
+  });
+};
+
+export {createPosts};
