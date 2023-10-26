@@ -65,6 +65,6 @@ const createPost = () => ({
   comments: Array.from({length: getRandomArrayIndex(COMMENTS_COUNT)}, createComment)
 });
 
-const createArrayOfPosts = Array.from({length: POSTS_COUNT}, createPost);
+const createArrayOfPosts = () => Array.from({length: POSTS_COUNT}, createPost);
 
 export {createArrayOfPosts};
