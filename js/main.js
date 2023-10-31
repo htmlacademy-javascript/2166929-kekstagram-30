@@ -1,3 +1,3 @@
-import {createPosts} from './thumbnails.js';
+import {createPosts} from './thumbnails-posts.js';
 
 createPosts();
