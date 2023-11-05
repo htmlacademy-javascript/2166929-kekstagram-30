@@ -3,15 +3,18 @@ import {escapeKey} from './util.js';
 const COMMENTS_COUNT_SHOWN = 5;
 
 const modal = document.querySelector('.big-picture');
-const modalButtonClose = document.querySelector('.big-picture__cancel');
-const fullSizePicture = document.querySelector('.big-picture__img').querySelector('img');
+const modalCloseButton = document.querySelector('.big-picture__cancel');
+const fullSizePicture = document.querySelector('.big-picture__img img');
 const likeCount = document.querySelector('.likes-count');
 const postTitle = document.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
 const commentTemplate = document.querySelector('.social__comment');
 const commentShownCount = document.querySelector('.social__comment-shown-count');
 const commentTotalCount = document.querySelector('.social__comment-total-count');
-const commentsButtonLoading = document.querySelector('.comments-loader');
+const commentsLoadingButton = document.querySelector('.comments-loader');
+
+let comments = [];
+let commentShown = 0;
 
 const renderPostInfo = (post) => {
   fullSizePicture.src = post.url;
@@ -29,52 +32,45 @@ const createComment = (comment) => {
   commentsList.append(newComment);
 };
 
-const createShownComments = (comments) => {
-  commentsList.innerHTML = '';
-  comments.forEach((comment) => createComment(comment));
-  for (let i = COMMENTS_COUNT_SHOWN; i < comments.length; i++) {
-    commentsList.children[i].classList.add('hidden');
-  }
+const fillCommentsCount = () => {
+  commentShownCount.textContent = Math.min(commentShown, comments.length);
+};
 
-  if (comments.length <= COMMENTS_COUNT_SHOWN) {
-    commentsButtonLoading.classList.add('hidden');
-  }
+const setStateButton = () => {
+  commentsLoadingButton.classList.toggle('hidden',commentShown >= comments.length);
+};
 
-  commentTotalCount.textContent = comments.length;
-  commentShownCount.textContent = comments.slice(0, COMMENTS_COUNT_SHOWN).length;
+const showComments = () => {
+  comments.slice(commentShown, commentShown + COMMENTS_COUNT_SHOWN).forEach((comment) => createComment(comment));
+  commentShown = commentShown + COMMENTS_COUNT_SHOWN;
+  fillCommentsCount();
+  setStateButton();
 };
 
 const onButtonLoadingClick = () => {
-  const commentsHidden = document.querySelectorAll('.social__comment.hidden');
-
-  for (let i = 0; i < COMMENTS_COUNT_SHOWN; i++) {
-    if (commentsHidden[i]) {
-      commentsHidden[i].classList.remove('hidden');
-    }
-  }
-
-  commentShownCount.textContent = commentsList.children.length + COMMENTS_COUNT_SHOWN - commentsHidden.length;
-
-  if (commentsHidden.length <= COMMENTS_COUNT_SHOWN) {
-    commentsButtonLoading.classList.add('hidden');
-    commentShownCount.textContent = commentsList.children.length;
-  }
+  showComments();
 };
 
 const openModal = () => {
   modal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  commentsButtonLoading.addEventListener('click', onButtonLoadingClick);
+  commentsLoadingButton.addEventListener('click', onButtonLoadingClick);
+  modalCloseButton.addEventListener('click', onModalCloseButton);
 };
 
 const closeModal = () => {
   modal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  commentsButtonLoading.classList.remove('hidden');
-  commentsButtonLoading.removeEventListener('click', onButtonLoadingClick);
+  commentsLoadingButton.removeEventListener('click', onButtonLoadingClick);
+  modalCloseButton.removeEventListener('click', onModalCloseButton);
+  commentShown = 0;
 };
+
+function onModalCloseButton () {
+  closeModal();
+}
 
 function onDocumentKeydown(evt) {
   if (escapeKey(evt)) {
@@ -83,12 +79,13 @@ function onDocumentKeydown(evt) {
   }
 }
 
-modalButtonClose.addEventListener('click', closeModal);
-
 const renderFullSizePost = (post) => {
+  comments = post.comments;
+  commentsList.innerHTML = '';
+  commentTotalCount.textContent = comments.length;
   openModal();
   renderPostInfo(post);
-  createShownComments(post.comments);
+  showComments();
 };
 
 export {renderFullSizePost};
