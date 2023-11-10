@@ -1,4 +1,4 @@
-import {createArrayOfPosts} from './data.js';
+import {createArrayOfPosts} from '../data.js';
 import {renderFullSizePost} from './full-size-posts.js';
 
 const posts = document.querySelector('.pictures');
