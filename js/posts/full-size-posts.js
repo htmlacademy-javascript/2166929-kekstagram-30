@@ -1,6 +1,6 @@
-import {escapeKey} from './util.js';
+import {isEscapeKey} from '../util.js';
 
-const COMMENTS_COUNT_SHOWN = 5;
+const COMMENTS_COUNT = 5;
 
 const modal = document.querySelector('.big-picture');
 const modalCloseButton = document.querySelector('.big-picture__cancel');
@@ -41,8 +41,8 @@ const setStateButton = () => {
 };
 
 const showComments = () => {
-  comments.slice(commentShown, commentShown + COMMENTS_COUNT_SHOWN).forEach((comment) => createComment(comment));
-  commentShown = commentShown + COMMENTS_COUNT_SHOWN;
+  comments.slice(commentShown, commentShown + COMMENTS_COUNT).forEach((comment) => createComment(comment));
+  commentShown = commentShown + COMMENTS_COUNT;
   fillCommentsCount();
   setStateButton();
 };
@@ -73,7 +73,7 @@ function onModalCloseButton () {
 }
 
 function onDocumentKeydown(evt) {
-  if (escapeKey(evt)) {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeModal();
   }
