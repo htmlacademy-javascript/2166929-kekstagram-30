@@ -20,7 +20,7 @@ const createPost = (post) => {
 };
 
 const createPosts = (postsFromServer) => {
-  postsFromServer.forEach((postDate) => createPost(postDate));
+  postsFromServer.forEach((postData) => createPost(postData));
 };
 
 export {createPosts};

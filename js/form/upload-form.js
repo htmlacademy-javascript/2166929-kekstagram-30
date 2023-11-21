@@ -2,7 +2,7 @@ import {isEscapeKey} from '../util/util.js';
 import {validatePristine, resetPristine, renderErrorMessages} from './validate-form.js';
 import {scalingImage, resetScalingImage} from './photo-scale.js';
 import {onEffectsListChange, initSlider} from './photo-effects.js';
-import {submitForm} from '../api/get-and-post-date.js';
+import {submitForm} from '../api/get-and-post-data.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadOpenButton = document.querySelector('.img-upload__input');
@@ -23,7 +23,7 @@ const closeModal = () => {
   resetPristine();
   resetScalingImage();
   initSlider(currentEffect);
-  createDisabledSubmitButton(false);
+  uploadForm.reset();
   document.body.classList.remove('modal-open');
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -50,11 +50,10 @@ function onDocumentKeydown(evt) {
 }
 
 function onFormSubmit(evt) {
-  if(!validatePristine()) {
-    return;
-  }
   evt.preventDefault();
-  submitForm(evt.target);
+  if(validatePristine()) {
+    submitForm(evt.target);
+  }
 }
 
 const createUploadModal = () => {

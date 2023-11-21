@@ -1,12 +1,12 @@
-import {getServerDate, postServerDate} from './date.js';
+import {getServerData, postServerData} from './data.js';
 import {createPosts} from '../posts/thumbnails-posts.js';
 import {createServerErrorMessage} from '../posts/posts-error-message.js';
 import {createDisabledSubmitButton, closeModal} from '../form/upload-form.js';
 import {createFormSuccessMessage, createFormErrorMessage} from '../form/form-error-messages.js';
 
-const getDate = async () => {
+const getData = async () => {
   try {
-    const pictures = await getServerDate();
+    const pictures = await getServerData();
     createPosts(pictures);
   } catch {
     createServerErrorMessage();
@@ -16,13 +16,14 @@ const getDate = async () => {
 const submitForm = async (formElement) => {
   try {
     createDisabledSubmitButton(true);
-    await postServerDate(new FormData(formElement));
+    await postServerData(new FormData(formElement));
     closeModal();
     createFormSuccessMessage();
+    createDisabledSubmitButton(false);
   } catch {
     createFormErrorMessage();
     createDisabledSubmitButton(false);
   }
 };
 
-export {getDate, submitForm};
+export {getData, submitForm};

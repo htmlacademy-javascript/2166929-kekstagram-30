@@ -1,5 +1,5 @@
-import {getDate} from './api/get-and-post-date.js';
+import {getData} from './api/get-and-post-data.js';
 import {createUploadModal} from './form/upload-form.js';
 
-getDate();
+getData();
 createUploadModal();
