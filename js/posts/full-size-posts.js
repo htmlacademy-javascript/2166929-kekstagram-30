@@ -47,9 +47,7 @@ const showComments = () => {
   setStateButton();
 };
 
-const onButtonLoadingClick = () => {
-  showComments();
-};
+const onButtonLoadingClick = () => showComments();
 
 const openModal = () => {
   modal.classList.remove('hidden');
@@ -73,7 +71,7 @@ function onModalCloseButton () {
 }
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt)) {
+  if (isEscapeKey(evt) && !evt.target.closest('.social__footer-text')) {
     evt.preventDefault();
     closeModal();
   }

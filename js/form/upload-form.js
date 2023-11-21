@@ -1,14 +1,14 @@
 import {isEscapeKey} from '../util/util.js';
-import {validatePristine, resetPristine, renderErrorMessages} from '../form/validate-form.js';
-import {scalingImage, resetScalingImage} from '../form/photo-scale.js';
-import {onEffectsListChange, initSlider} from '../form/photo-effects.js';
+import {validatePristine, resetPristine, renderErrorMessages} from './validate-form.js';
+import {scalingImage, resetScalingImage} from './photo-scale.js';
+import {onEffectsListChange, initSlider} from './photo-effects.js';
+import {submitForm} from '../api/get-and-post-data.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadOpenButton = document.querySelector('.img-upload__input');
 const uploadModal = document.querySelector('.img-upload__overlay');
 const uploadCloseButton = document.querySelector('.img-upload__cancel');
-const descriptionInput = document.querySelector('.text__description');
-const hashtagsInput = document.querySelector('.text__hashtags');
+const submitButton = document.querySelector('.img-upload__submit');
 const effectsList = document.querySelector('.img-upload__effects');
 const currentEffect = document.querySelector('.effects__radio:checked');
 
@@ -22,15 +22,19 @@ const openModal = () => {
 const closeModal = () => {
   resetPristine();
   resetScalingImage();
-  document.removeEventListener('keydown', onDocumentKeydown);
+  initSlider(currentEffect);
+  uploadForm.reset();
   document.body.classList.remove('modal-open');
   uploadModal.classList.add('hidden');
+  document.removeEventListener('keydown', onDocumentKeydown);
   uploadCloseButton.removeEventListener('click', onCloseUploadButtonClick);
 };
 
+function createDisabledSubmitButton(isDisabled) {
+  submitButton.disabled = isDisabled;
+}
+
 function onOpenModalButtonClick() {
-  document.body.classList.add('modal-open');
-  uploadModal.classList.remove('hidden');
   openModal();
 }
 
@@ -39,15 +43,16 @@ function onCloseUploadButtonClick() {
 }
 
 function onDocumentKeydown(evt) {
-  if (isEscapeKey(evt) && !evt.target.closest(`.${ descriptionInput }`) && !evt.target.closest(`.${ hashtagsInput }`)) {
+  if (isEscapeKey(evt) && !evt.target.closest('.text__description') && !evt.target.closest('.text__hashtags') && !document.querySelector('.error')) {
     evt.preventDefault();
     closeModal();
   }
 }
 
 function onFormSubmit(evt) {
-  if(!validatePristine()) {
-    evt.preventDefault();
+  evt.preventDefault();
+  if(validatePristine()) {
+    submitForm(evt.target);
   }
 }
 
@@ -55,9 +60,9 @@ const createUploadModal = () => {
   renderErrorMessages();
   scalingImage ();
   initSlider(currentEffect);
-  uploadForm.addEventListener('submit', (evt) => onFormSubmit(evt));
-  uploadOpenButton.addEventListener('change', onOpenModalButtonClick);
   effectsList.addEventListener('change', onEffectsListChange);
+  uploadOpenButton.addEventListener('change', onOpenModalButtonClick);
+  uploadForm.addEventListener('submit', onFormSubmit);
 };
 
-export {createUploadModal};
+export {createUploadModal, createDisabledSubmitButton, closeModal};

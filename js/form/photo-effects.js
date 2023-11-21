@@ -1,5 +1,5 @@
 const EFFECTS = {
-  default: {
+  none: {
     name: 'none',
     min: 0,
     max: 100,
@@ -59,40 +59,49 @@ const setSliderState = (target) => {
 };
 
 const createSlider = (target) => {
-  if (!EFFECTS[target.value]) {
-    target.value = 'default';
+  let currentValue = target.value;
+  if (!EFFECTS[currentValue]) {
+    currentValue = 'none';
   }
 
   noUiSlider.create(sliderElement, {
     range: {
-      min: EFFECTS[target.value].min,
-      max: EFFECTS[target.value].max
+      min: EFFECTS[currentValue].min,
+      max: EFFECTS[currentValue].max
     },
-    start: EFFECTS[target.value].max,
-    step: EFFECTS[target.value].step,
-    connect: 'lower'
-  });
-};
-
-const updateEffects = (target) => {
-  if (!EFFECTS[target.value]) {
-    target.value = 'default';
-  }
-
-  sliderElement.noUiSlider.updateOptions({
-    range: {
-      min: EFFECTS[target.value].min,
-      max: EFFECTS[target.value].max
-    },
-    start: EFFECTS[target.value].max,
-    step: EFFECTS[target.value].step,
+    start: EFFECTS[currentValue].max,
+    step: EFFECTS[currentValue].step,
     connect: 'lower'
   });
 
   sliderElement.noUiSlider.off('update');
   sliderElement.noUiSlider.on('update', () => {
     effectValue.value = sliderElement.noUiSlider.get();
-    imagePreview.style.filter = `${EFFECTS[target.value].name}(${effectValue.value}${EFFECTS[target.value].unit})`;
+    imagePreview.style.filter = `${EFFECTS[currentValue].name}(${effectValue.value}${EFFECTS[currentValue].unit})`;
+  });
+};
+
+const updateEffects = (target) => {
+  let currentValue = target.value;
+
+  if (!EFFECTS[currentValue]) {
+    currentValue = 'none';
+  }
+
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: EFFECTS[currentValue].min,
+      max: EFFECTS[currentValue].max
+    },
+    start: EFFECTS[currentValue].max,
+    step: EFFECTS[currentValue].step,
+    connect: 'lower'
+  });
+
+  sliderElement.noUiSlider.off('update');
+  sliderElement.noUiSlider.on('update', () => {
+    effectValue.value = sliderElement.noUiSlider.get();
+    imagePreview.style.filter = `${EFFECTS[currentValue].name}(${effectValue.value}${EFFECTS[currentValue].unit})`;
   });
 };
 
@@ -102,7 +111,6 @@ const initSlider = (target) => {
   }
 
   setSliderState(target);
-  updateEffects(target);
 };
 
 const onEffectsListChange = (evt) => {
