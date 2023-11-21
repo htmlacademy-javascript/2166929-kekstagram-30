@@ -1,5 +1,5 @@
-import {createPosts} from './posts/thumbnails-posts.js';
-import {createUploadModal} from './form/upload-modal.js';
+import {getDate} from './api/get-and-post-date.js';
+import {createUploadModal} from './form/upload-form.js';
 
-createPosts();
+getDate();
 createUploadModal();

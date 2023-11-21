@@ -1,9 +1,7 @@
-import {createArrayOfPosts} from './data.js';
 import {renderFullSizePost} from './full-size-posts.js';
 
 const posts = document.querySelector('.pictures');
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
-const thumbnailsOfPosts = createArrayOfPosts();
 
 const createPost = (post) => {
   const postElement = postTemplate.cloneNode(true);
@@ -21,8 +19,8 @@ const createPost = (post) => {
   posts.append(postElement);
 };
 
-const createPosts = () => {
-  thumbnailsOfPosts.forEach((postDate) => createPost(postDate));
+const createPosts = (postsFromServer) => {
+  postsFromServer.forEach((postDate) => createPost(postDate));
 };
 
 export {createPosts};

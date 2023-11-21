@@ -4,7 +4,7 @@ const HASHTAG_REGULAR_EXPRESSION = /^#[a-zа-яё0-9]{1,19}$/i;
 const ERROR_VALIDATE_HASHTAGS = 'введён невалидный хэш-тег';
 const ERROR_NUMBER_HASHTAGS = 'превышено количество хэш-тегов';
 const ERROR_REPEAT_HASHTAGS = 'хэш-теги повторяются';
-const ERROR_COMMENTS_LENGTH = `длина комментария больше ${ DESCRIPTION_LENGTH } символов`;
+const ERROR_COMMENTS_LENGTH = `длина комментария больше ${DESCRIPTION_LENGTH} символов`;
 
 const uploadForm = document.querySelector('.img-upload__form');
 const descriptionInput = document.querySelector('.text__description');
@@ -24,9 +24,7 @@ const isValidateHashtags = () => {
 };
 
 const isValidateNumberHashtags = () => hashtagsArray.length <= HASHTAGS_COUNT;
-
 const isValidateRepeatHashtags = () => new Set(hashtagsArray).size === hashtagsArray.length;
-
 const isValidateDescriptionLength = () => descriptionInput.value.length <= DESCRIPTION_LENGTH;
 
 const renderErrorMessages = () => {

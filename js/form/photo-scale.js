@@ -31,8 +31,7 @@ const scalingImage = () => {
 
 const resetScalingImage = () => {
   inputValue = SCALE_MAX_COUNT;
-  scaleControlInput.value = `${inputValue}%`;
-  imagePreview.style.transform = `scale(${scaleControlInput.value})`;
+  createScaleImage();
 };
 
 export {scalingImage, resetScalingImage};
