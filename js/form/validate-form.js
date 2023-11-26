@@ -10,28 +10,30 @@ const uploadForm = document.querySelector('.img-upload__form');
 const descriptionInput = document.querySelector('.text__description');
 const hashtagsInput = document.querySelector('.text__hashtags');
 
-let hashtagsArray = [];
-
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error'
 });
 
-const isValidateHashtags = () => {
-  hashtagsArray = hashtagsInput.value.toLowerCase().trim().split(' ');
-  return hashtagsArray.filter((hashtag) => hashtag).every((hashtag) => HASHTAG_REGULAR_EXPRESSION.test(hashtag));
+const createHashtags = (value) => value.trim().toLowerCase().split(' ').filter((hashtag) => hashtag);
+
+const isValidHashtags = (value) => createHashtags(value).every((hashtag) => HASHTAG_REGULAR_EXPRESSION.test(hashtag));
+
+const isValidNumberHashtags = (value) => createHashtags(value).length <= HASHTAGS_COUNT;
+
+const isValidRepeatHashtags = (value) => {
+  const hashtags = createHashtags(value);
+  return new Set(hashtags).size === hashtags.length;
 };
 
-const isValidateNumberHashtags = () => hashtagsArray.length <= HASHTAGS_COUNT;
-const isValidateRepeatHashtags = () => new Set(hashtagsArray).size === hashtagsArray.length;
-const isValidateDescriptionLength = () => descriptionInput.value.length <= DESCRIPTION_LENGTH;
+const isValidDescriptionLength = (value) => value.length <= DESCRIPTION_LENGTH;
 
 const renderErrorMessages = () => {
-  pristine.addValidator(hashtagsInput, isValidateHashtags, ERROR_VALIDATE_HASHTAGS, 1, true);
-  pristine.addValidator(hashtagsInput, isValidateNumberHashtags, ERROR_NUMBER_HASHTAGS, 1, true);
-  pristine.addValidator(hashtagsInput, isValidateRepeatHashtags, ERROR_REPEAT_HASHTAGS, 1, true);
-  pristine.addValidator(descriptionInput, isValidateDescriptionLength, ERROR_COMMENTS_LENGTH, 1, true);
+  pristine.addValidator(hashtagsInput, isValidHashtags, ERROR_VALIDATE_HASHTAGS, 1, true);
+  pristine.addValidator(hashtagsInput, isValidNumberHashtags, ERROR_NUMBER_HASHTAGS, 1, true);
+  pristine.addValidator(hashtagsInput, isValidRepeatHashtags, ERROR_REPEAT_HASHTAGS, 1, true);
+  pristine.addValidator(descriptionInput, isValidDescriptionLength, ERROR_COMMENTS_LENGTH, 1, true);
 };
 
 const validatePristine = () => pristine.validate();

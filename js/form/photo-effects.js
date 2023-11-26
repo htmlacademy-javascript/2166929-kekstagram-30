@@ -76,7 +76,7 @@ const createSlider = (target) => {
 
   sliderElement.noUiSlider.off('update');
   sliderElement.noUiSlider.on('update', () => {
-    effectValue.value = sliderElement.noUiSlider.get();
+    effectValue.value = parseFloat(sliderElement.noUiSlider.get());
     imagePreview.style.filter = `${EFFECTS[currentValue].name}(${effectValue.value}${EFFECTS[currentValue].unit})`;
   });
 };
@@ -100,7 +100,7 @@ const updateEffects = (target) => {
 
   sliderElement.noUiSlider.off('update');
   sliderElement.noUiSlider.on('update', () => {
-    effectValue.value = sliderElement.noUiSlider.get();
+    effectValue.value = parseFloat(sliderElement.noUiSlider.get());
     imagePreview.style.filter = `${EFFECTS[currentValue].name}(${effectValue.value}${EFFECTS[currentValue].unit})`;
   });
 };

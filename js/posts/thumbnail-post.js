@@ -1,4 +1,4 @@
-import {renderFullSizePost} from './full-size-posts.js';
+import {renderFullSizePost} from './full-size-posts';
 
 const posts = document.querySelector('.pictures');
 const postTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -19,8 +19,4 @@ const createPost = (post) => {
   posts.append(postElement);
 };
 
-const createPosts = (postsFromServer) => {
-  postsFromServer.forEach((postData) => createPost(postData));
-};
-
-export {createPosts};
+export {createPost};

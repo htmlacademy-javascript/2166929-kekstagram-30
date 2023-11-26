@@ -47,13 +47,13 @@ const showComments = () => {
   setStateButton();
 };
 
-const onButtonLoadingClick = () => showComments();
+const onLoadingButtonClick = () => showComments();
 
 const openModal = () => {
   modal.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
-  commentsLoadingButton.addEventListener('click', onButtonLoadingClick);
+  commentsLoadingButton.addEventListener('click', onLoadingButtonClick);
   modalCloseButton.addEventListener('click', onModalCloseButton);
 };
 
@@ -61,7 +61,7 @@ const closeModal = () => {
   modal.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  commentsLoadingButton.removeEventListener('click', onButtonLoadingClick);
+  commentsLoadingButton.removeEventListener('click', onLoadingButtonClick);
   modalCloseButton.removeEventListener('click', onModalCloseButton);
   commentShown = 0;
 };

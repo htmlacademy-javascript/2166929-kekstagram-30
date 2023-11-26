@@ -1,5 +1,23 @@
-const getRandomInteger = (min, max) => Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1) + Math.ceil(min));
+const TIMER_FOR_SORT_POSTS = 500;
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomInteger, isEscapeKey};
+const shuffleElements = (elements) => {
+  for (let i = elements.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = elements[i];
+    elements[i] = elements[j];
+    elements[j] = temp;
+  }
+  return elements;
+};
+
+const debounce = (callback, timeoutDelay = TIMER_FOR_SORT_POSTS) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export {isEscapeKey, shuffleElements, debounce};

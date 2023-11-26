@@ -22,8 +22,8 @@ const createFormErrorMessage = () => {
 };
 
 const closeMessage = () => {
-  const existsElement = document.querySelector('.success') || document.querySelector('.error');
-  existsElement.remove();
+  const message = document.querySelector('.success') || document.querySelector('.error');
+  message.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   document.removeEventListener('click', onBodyClick);
 };
