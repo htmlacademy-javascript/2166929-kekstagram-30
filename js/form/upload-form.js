@@ -1,8 +1,8 @@
 import {isEscapeKey} from '../util/util.js';
 import {validatePristine, resetPristine, renderErrorMessages} from './validate-form.js';
-import {scalingImage, resetScalingImage} from './photo-scale.js';
+import {scaleImage, resetScaleImage} from './photo-scale.js';
 import {onEffectsListChange, initSlider} from './photo-effects.js';
-import {submitForm} from '../api/get-and-post-data.js';
+import {submitForm} from '../api/get-and-submit-data.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadOpenButton = document.querySelector('.img-upload__input');
@@ -21,7 +21,7 @@ const openModal = () => {
 
 const closeModal = () => {
   resetPristine();
-  resetScalingImage();
+  resetScaleImage();
   initSlider(currentEffect);
   uploadForm.reset();
   document.body.classList.remove('modal-open');
@@ -58,7 +58,7 @@ function onFormSubmit(evt) {
 
 const createUploadModal = () => {
   renderErrorMessages();
-  scalingImage ();
+  scaleImage ();
   initSlider(currentEffect);
   effectsList.addEventListener('change', onEffectsListChange);
   uploadOpenButton.addEventListener('change', onOpenModalButtonClick);

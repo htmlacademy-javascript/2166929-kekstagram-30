@@ -1,5 +1,5 @@
-const URL_GENERAL = 'https://30.javascript.pages.academy/kekstagram';
-const URL_FOR_GET = `${URL_GENERAL}/data`;
+const URL_GENERAL = 'https://30.javascript.pages.academy/kekstagram/';
+const URL_FOR_GET = `${URL_GENERAL}data`;
 
 const serverRequest = async (url, method, body) => {
   const response = await fetch(url, {method, body});
@@ -10,6 +10,6 @@ const serverRequest = async (url, method, body) => {
 };
 
 const getServerData = async () => serverRequest(URL_FOR_GET, 'GET');
-const postServerData = async (postData) => serverRequest(URL_GENERAL, 'POST', postData);
+const sendServerData = async (data) => serverRequest(URL_GENERAL, 'POST', data);
 
-export {getServerData, postServerData};
+export {getServerData, sendServerData};

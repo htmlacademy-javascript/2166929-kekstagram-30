@@ -24,14 +24,14 @@ const onScaleZoomButtonClick = () => {
   createScaleImage();
 };
 
-const scalingImage = () => {
+const scaleImage = () => {
   scaleDecreaseButton.addEventListener('click', onScaleDecreaseButtonClick);
   scaleZoomButton.addEventListener('click', onScaleZoomButtonClick);
 };
 
-const resetScalingImage = () => {
+const resetScaleImage = () => {
   inputValue = SCALE_MAX_COUNT;
   createScaleImage();
 };
 
-export {scalingImage, resetScalingImage};
+export {scaleImage, resetScaleImage};
