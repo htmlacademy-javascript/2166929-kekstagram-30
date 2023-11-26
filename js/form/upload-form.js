@@ -3,6 +3,7 @@ import {validatePristine, resetPristine, renderErrorMessages} from './validate-f
 import {scaleImage, resetScaleImage} from './photo-scale.js';
 import {onEffectsListChange, initSlider} from './photo-effects.js';
 import {submitForm} from '../api/get-and-submit-data.js';
+import {uploadPhoto, resetUploadPhoto} from './upload-photo-for-post.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadOpenButton = document.querySelector('.img-upload__input');
@@ -24,6 +25,7 @@ const closeModal = () => {
   resetScaleImage();
   initSlider(currentEffect);
   uploadForm.reset();
+  resetUploadPhoto();
   document.body.classList.remove('modal-open');
   uploadModal.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
@@ -35,6 +37,7 @@ function createDisabledSubmitButton(isDisabled) {
 }
 
 function onOpenModalButtonClick() {
+  uploadPhoto();
   openModal();
 }
 
