@@ -32,12 +32,12 @@ const closeModal = () => {
   uploadCloseButton.removeEventListener('click', onCloseUploadButtonClick);
 };
 
-function createDisabledSubmitButton(isDisabled) {
+const createDisabledSubmitButton = (isDisabled) => {
   submitButton.disabled = isDisabled;
-}
+};
 
-function onOpenModalButtonClick() {
-  uploadPhoto();
+function onOpenModalButtonClick(evt) {
+  uploadPhoto(evt);
   openModal();
 }
 

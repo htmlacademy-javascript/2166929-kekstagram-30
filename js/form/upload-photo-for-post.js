@@ -1,6 +1,6 @@
-const FILE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+const FILE_TYPES = ['.jpg', '.jpeg', '.png', '.webp', '.svg'];
+const DEFAULT_IMAGE_SRC = 'img/upload-default-image.jpg';
 
-const uploadInput = document.querySelector('.img-upload__input');
 const uploadImage = document.querySelector('.img-upload__preview img');
 const effectsPreview = document.querySelectorAll('.effects__preview');
 
@@ -9,21 +9,23 @@ const isValidType = (file) => {
   return FILE_TYPES.some((type) => fileName.endsWith(type));
 };
 
-const uploadPhoto = () => {
-  const file = uploadInput.files[0];
+const uploadPhoto = (evt) => {
+  const file = evt.target.files[0];
 
   if (file && isValidType(file)) {
-    uploadImage.src = URL.createObjectURL(file);
+    const src = URL.createObjectURL(file);
+    uploadImage.src = src;
     effectsPreview.forEach((item) => {
-      item.style.backgroundImage = `url(${uploadImage.src})`;
+      item.style.backgroundImage = `url(${src})`;
     });
   }
 };
 
 const resetUploadPhoto = () => {
-  uploadImage.src = 'img/upload-default-image.jpg';
+  const src = DEFAULT_IMAGE_SRC;
+  uploadImage.src = src;
   effectsPreview.forEach((item) => {
-    item.style.backgroundImage = `url(${uploadImage.src})`;
+    item.style.backgroundImage = `url(${src})`;
   });
 };
 
