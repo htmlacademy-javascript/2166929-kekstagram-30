@@ -54,7 +54,7 @@ const openModal = () => {
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
   commentsLoadingButton.addEventListener('click', onLoadingButtonClick);
-  modalCloseButton.addEventListener('click', onModalCloseButton);
+  modalCloseButton.addEventListener('click', onModalCloseButtonClick);
 };
 
 const closeModal = () => {
@@ -62,11 +62,11 @@ const closeModal = () => {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   commentsLoadingButton.removeEventListener('click', onLoadingButtonClick);
-  modalCloseButton.removeEventListener('click', onModalCloseButton);
+  modalCloseButton.removeEventListener('click', onModalCloseButtonClick);
   commentShown = 0;
 };
 
-function onModalCloseButton () {
+function onModalCloseButtonClick () {
   closeModal();
 }
 
