@@ -8,7 +8,7 @@ const createMessage = (element, buttonClass) => {
   const messageCloseButton = element.querySelector(buttonClass);
   messageCloseButton.addEventListener('click', onMessageCloseButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', onBodyClick);
+  document.addEventListener('click', onDocumentClick);
 };
 
 const createFormSuccessMessage = () => {
@@ -25,7 +25,7 @@ const closeMessage = () => {
   const message = document.querySelector('.success') || document.querySelector('.error');
   message.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
-  document.removeEventListener('click', onBodyClick);
+  document.removeEventListener('click', onDocumentClick);
 };
 
 function onMessageCloseButtonClick() {
@@ -39,7 +39,7 @@ function onDocumentKeydown(evt) {
   }
 }
 
-function onBodyClick(evt) {
+function onDocumentClick(evt) {
   if (evt.target.closest('.success__inner') || evt.target.closest('.error__inner')) {
     return;
   }
